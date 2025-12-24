@@ -75,10 +75,19 @@ impl BrowserManager {
     }
 
     fn launch_browser() -> AppResult<Browser> {
-        let launch_options = LaunchOptions::default_builder()
+        let sandbox = std::env::var("CHROME_NO_SANDBOX").is_err();
+
+        let mut builder = LaunchOptions::default_builder();
+        builder
             .headless(true)
-            .sandbox(true)
-            .idle_browser_timeout(Duration::from_secs(600))
+            .sandbox(sandbox)
+            .idle_browser_timeout(Duration::from_secs(600));
+
+        if let Ok(path) = std::env::var("CHROME_PATH") {
+            builder.path(Some(std::path::PathBuf::from(path)));
+        }
+
+        let launch_options = builder
             .build()
             .map_err(|e| AppError::Browser(format!("Launch options failed: {}", e)))?;
 

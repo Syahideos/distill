@@ -129,18 +129,32 @@ src/
 | `API_KEY` | ✅ | `changeme` | API 인증 키 |
 | `GEMINI_API_KEY` | | - | Gemini API 키 (LLM 분석 사용 시 필수) |
 | `PORT` | | `3000` | 서버 포트 |
-| `MAX_CONCURRENT_TABS` | | `50` | 최대 동시 브라우저 탭 수 |
-| `ALLOWED_ORIGINS` | | `*` | CORS 허용 origin (쉼표 구분, 예: `https://example.com,https://api.example.com`) |
+| `MAX_CONCURRENT_TABS` | | `50` (Docker: `10`) | 최대 동시 브라우저 탭 수 |
+| `ALLOWED_ORIGINS` | | `*` | CORS 허용 origin (쉼표 구분) |
+| `CHROME_PATH` | | - | Chrome/Chromium 경로 (Docker에서 자동 설정) |
+| `CHROME_NO_SANDBOX` | | - | 설정 시 Chrome 샌드박스 비활성화 (Docker 필수) |
 
 ---
 
 ## 빠른 시작
 
-### 실행
+### 로컬 실행
 
 ```bash
-# 환경 변수 설정 후 실행
 API_KEY=your-secret-key GEMINI_API_KEY=your-gemini-key cargo run
+```
+
+### Docker 실행
+
+```bash
+# 이미지 빌드
+docker build -t distill .
+
+# 컨테이너 실행
+docker run -d -p 3000:3000 \
+  -e API_KEY=your-secret-key \
+  -e GEMINI_API_KEY=your-gemini-key \
+  distill
 ```
 
 서버가 `http://localhost:3000`에서 시작됩니다.
@@ -288,3 +302,59 @@ API_KEY=test-key cargo run --bin loadtest
 - **headless_chrome** - 브라우저 자동화
 - **reqwest** - HTTP 클라이언트
 - **htmd** - HTML → Markdown 변환
+
+---
+
+## Docker
+
+### 이미지 구조
+
+Multi-stage 빌드로 최적화된 경량 이미지:
+
+| 스테이지 | 베이스 이미지 | 용도 |
+|----------|--------------|------|
+| Builder | `rust:slim-bookworm` | Rust 컴파일 |
+| Runtime | `debian:bookworm-slim` | 실행 환경 |
+
+### 포함 구성 요소
+
+- Distill 바이너리
+- Chromium (headless 브라우저)
+- CA 인증서
+
+### Dockerfile 특징
+
+```dockerfile
+# 의존성 캐싱으로 재빌드 최적화
+COPY Cargo.toml Cargo.lock ./
+RUN cargo build --release --bin distill
+
+# 런타임에 필요한 최소 패키지만 설치
+RUN apt-get install -y --no-install-recommends chromium
+```
+
+### 컨테이너 실행 옵션
+
+```bash
+# 기본 실행
+docker run -d -p 3000:3000 -e API_KEY=your-key distill
+
+# 동시 탭 수 조정
+docker run -d -p 3000:3000 \
+  -e API_KEY=your-key \
+  -e MAX_CONCURRENT_TABS=20 \
+  distill
+
+# 헬스체크 확인
+docker run -d -p 3000:3000 \
+  --health-cmd="curl -f http://localhost:3000/health || exit 1" \
+  --health-interval=30s \
+  -e API_KEY=your-key \
+  distill
+```
+
+### 주의사항
+
+- Docker 환경에서는 Chrome 샌드박스가 자동 비활성화됨 (`CHROME_NO_SANDBOX=1`)
+- 기본 동시 탭 수가 10개로 제한됨 (메모리 절약)
+- Chromium 포함으로 이미지 크기 약 450MB
